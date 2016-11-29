@@ -4,21 +4,7 @@ import HomePageRow from './HomePageRow';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as postsActions from '../../redux/modules/posts';
-import * as authorsAction from '../../redux/modules/authors';
 import {sortNewPostsFirstSelector} from '../../selector/selectors';
-import {asyncConnect} from 'redux-async-connect';
-
-@asyncConnect([{
-  deferred: true,
-  promise: ({store: {dispatch}}) => {
-    return dispatch(postsActions.loadPosts());
-  }
-}, {
-  deffered: true,
-  promise: ({store: {dispatch}}) => {
-    return dispatch(authorsAction.loadAuthors());
-  }
-}])
 
 class HomePage extends React.Component {
 

@@ -1,4 +1,3 @@
-import toastr from 'toastr';
 import {connect} from 'react-redux';
 import objectAssign from 'object-assign';
 import React, {PropTypes} from 'react';
@@ -22,10 +21,6 @@ class EditPostPage extends React.Component {
     this.updatePostState = this.updatePostState.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
     this.savePost = this.savePost.bind(this);
-  }
-
-  componentDidMount() {
-    this.setState({post: objectAssign({}, this.props.post)}); // eslint-disable-line
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,15 +53,13 @@ class EditPostPage extends React.Component {
     this.setState({saving: true});
     this.updateOrCreate(post)(post)
       .then(() => this.redirect())
-      .catch((error) => {
-        toastr.error(error);
+      .catch(() => {
         this.setState({saving: false});
       });
   }
 
   redirect() {
     this.setState({saving: false});
-    toastr.success('Post saved');
     this.context.router.push('/admin/posts');
   }
 

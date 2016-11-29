@@ -1,7 +1,7 @@
-import toastr from 'toastr';
 import PostList from './PostList';
 import {connect} from 'react-redux';
 import React, {PropTypes} from 'react';
+import Helmet from 'react-helmet';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
 import * as postActions from '../../redux/modules/posts';
@@ -20,19 +20,18 @@ class ManagePostsPage extends React.Component {
     event.preventDefault();
     this.props.actions.deletePost(post.id)
       .then(() => {
-        toastr.success('Post deleted');
       });
   }
 
   redirectToAddPostPage() {
-    browserHistory.push('/create/post');
+    browserHistory.push('/admin/create/post');
   }
 
   render() {
     const {posts} = this.props;
-
     return (
       <div>
+        <Helmet title="Manage posts page"/>
         <h1>Posts</h1>
         <PostList posts={posts} onDelete={this.deletePost}/>
         <input type="submit"

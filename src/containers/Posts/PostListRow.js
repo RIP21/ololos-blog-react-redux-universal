@@ -6,7 +6,7 @@ const PostListRow = ({post, onDelete}) => {
   return (
     <tr>
       <td><a href="#" onClick={event => onDelete(event, post)}>Delete</a></td>
-      <td><Link to={'/post/edit/' + post.id}>Edit</Link></td>
+      <td><Link to={'/admin/edit/post/' + post.id}>Edit</Link></td>
       <td>{post.id}</td>
       <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
       <td>{post.author.authorName}</td>

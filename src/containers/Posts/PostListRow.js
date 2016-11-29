@@ -1,19 +1,17 @@
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import dateformat from 'dateformat';
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
-const PostListRow = ({post, onDelete}) => {
-  return (
-    <tr>
-      <td><a href="#" onClick={event => onDelete(event, post)}>Delete</a></td>
-      <td><Link to={'/admin/edit/post/' + post.id}>Edit</Link></td>
-      <td>{post.id}</td>
-      <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
-      <td>{post.author.authorName}</td>
-      <td>{dateformat(post.postdate)}</td>
-    </tr>
+const PostListRow = ({ post, onDelete }) => (
+  <tr>
+    <td><a href="#" onClick={event => onDelete(event, post)}>Delete</a></td>
+    <td><Link to={`/admin/edit/post/${post.id}`}>Edit</Link></td>
+    <td>{post.id}</td>
+    <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
+    <td>{post.author.authorName}</td>
+    <td>{dateformat(post.postdate)}</td>
+  </tr>
   );
-};
 
 PostListRow.propTypes = {
   post: PropTypes.object.isRequired,

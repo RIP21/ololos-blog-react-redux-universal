@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 
 export function getById(entries, id) {
   if (entries[0].id) {
@@ -16,5 +16,5 @@ const postsSelector = state => state.posts;
 
 export const sortNewPostsFirstSelector = createSelector(
   postsSelector,
-  (posts) => [...posts].sort((prev, next) => new Date(next.postdate) - new Date(prev.postdate))
+  posts => [...posts].sort((prev, next) => new Date(next.postdate) - new Date(prev.postdate))
 );

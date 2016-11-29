@@ -1,8 +1,8 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import objectAssign from 'object-assign';
-import React, {PropTypes} from 'react';
-import {bindActionCreators} from 'redux';
-import {getById} from '../../selector/selectors';
+import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { getById } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import * as postActions from '../../redux/modules/posts';
 import EditPostForm from './EditPostForm';
@@ -26,7 +26,7 @@ class EditPostPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.post.id !== nextProps.post.id) {
       // Necessary to populate form when existing post is loaded directly.
-      this.setState({post: Object.assign({}, nextProps.post)});
+      this.setState({ post: Object.assign({}, nextProps.post) });
     }
   }
 
@@ -34,15 +34,15 @@ class EditPostPage extends React.Component {
     const field = event.target.name;
     const post = this.state.post;
     post[field] = event.target.value;
-    return this.setState({post});
+    return this.setState({ post });
   }
 
   handleEditorChange(value) {
-    return this.setState({post: objectAssign(this.state.post, {body: value})});
+    return this.setState({ post: objectAssign(this.state.post, { body: value }) });
   }
 
   updateOrCreate(post) {
-    const {updatePost, createPost} = this.props.actions;
+    const { updatePost, createPost } = this.props.actions;
     return post.id ? updatePost : createPost;
   }
 
@@ -50,27 +50,28 @@ class EditPostPage extends React.Component {
   savePost(event) {
     const post = this.state.post;
     event.preventDefault();
-    this.setState({saving: true});
+    this.setState({ saving: true });
     this.updateOrCreate(post)(post)
       .then(() => this.redirect())
       .catch(() => {
-        this.setState({saving: false});
+        this.setState({ saving: false });
       });
   }
 
   redirect() {
-    this.setState({saving: false});
+    this.setState({ saving: false });
     this.context.router.push('/admin/posts');
   }
 
   render() {
     return (
-      <EditPostForm post={this.state.post}
-                    saving={this.state.saving}
-                    errors={this.state.errors}
-                    onChange={this.updatePostState}
-                    handleEditorChange={this.handleEditorChange}
-                    onSave={this.savePost}
+      <EditPostForm
+        post={this.state.post}
+        saving={this.state.saving}
+        errors={this.state.errors}
+        onChange={this.updatePostState}
+        handleEditorChange={this.handleEditorChange}
+        onSave={this.savePost}
       />
     );
   }

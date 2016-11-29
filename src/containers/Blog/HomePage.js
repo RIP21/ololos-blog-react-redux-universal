@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import BlogHeader from '../../common/BlogHeader';
 import HomePageRow from './HomePageRow';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as postsActions from '../../redux/modules/posts';
-import {sortNewPostsFirstSelector} from '../../selector/selectors';
+import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
 class HomePage extends React.Component {
 
@@ -16,8 +16,8 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <BlogHeader/>
-        <HomePageRow posts={this.props.posts}/>
+        <BlogHeader />
+        <HomePageRow posts={this.props.posts} />
       </div>
     );
   }

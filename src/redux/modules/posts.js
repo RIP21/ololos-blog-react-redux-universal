@@ -4,7 +4,7 @@ import initialState from '../../constants/initialState';
 export function loadPosts() {
   return {
     types: [types.LOAD_POSTS, types.LOAD_POSTS_SUCCESS, types.LOAD_POSTS_FAIL],
-    promise: (client) => client.get('api/posts')
+    promise: client => client.get('api/posts')
   };
 }
 
@@ -22,5 +22,4 @@ export default function postReducer(state = initialState.posts, action = {}) {
       return state;
   }
 }
-
 

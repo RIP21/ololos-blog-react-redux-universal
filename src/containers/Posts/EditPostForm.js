@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import TextInput from '../../common/TextInput';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -14,7 +14,7 @@ class EditPostForm extends React.Component {
   }
 
   render() {
-    const {saving, onSave, post, onChange, errors, handleEditorChange} = this.props;
+    const { saving, onSave, post, onChange, errors, handleEditorChange } = this.props;
     return (
       <form>
         {post.id === '' ? <h1>Create post</h1> : <h1>Edit post</h1>}
@@ -37,15 +37,19 @@ class EditPostForm extends React.Component {
 
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>Short Description:</ControlLabel>
-          <FormControl name="description" componentClass="textarea"
-                       placeholder="Short Description {Markdown syntax supported}" value={post.description}
-                       onChange={onChange}/>
+          <FormControl
+            name="description" componentClass="textarea"
+            placeholder="Short Description {Markdown syntax supported}" value={post.description}
+            onChange={onChange}
+          />
         </FormGroup>
 
-        <SimpleMDE name="body" id={'SimpleMDE-' + post.id} onChange={handleEditorChange} value={post.body} options={{
-          autofocus: true,
-          spellChecker: false
-        }}/>
+        <SimpleMDE
+          name="body" id={`SimpleMDE-${post.id}`} onChange={handleEditorChange} value={post.body} options={{
+            autofocus: true,
+            spellChecker: false
+          }}
+        />
 
         <input
           type="submit"

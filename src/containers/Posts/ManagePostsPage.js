@@ -1,11 +1,11 @@
 import PostList from './PostList';
-import {connect} from 'react-redux';
-import React, {PropTypes} from 'react';
+import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import {bindActionCreators} from 'redux';
-import {browserHistory} from 'react-router';
+import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import * as postActions from '../../redux/modules/posts';
-import {sortNewPostsFirstSelector} from '../../selector/selectors';
+import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
 class ManagePostsPage extends React.Component {
 
@@ -28,16 +28,18 @@ class ManagePostsPage extends React.Component {
   }
 
   render() {
-    const {posts} = this.props;
+    const { posts } = this.props;
     return (
       <div>
-        <Helmet title="Manage posts page"/>
+        <Helmet title="Manage posts page" />
         <h1>Posts</h1>
-        <PostList posts={posts} onDelete={this.deletePost}/>
-        <input type="submit"
-               value="Add Post"
-               className="btn btn-primary"
-               onClick={this.redirectToAddPostPage}/>
+        <PostList posts={posts} onDelete={this.deletePost} />
+        <input
+          type="submit"
+          value="Add Post"
+          className="btn btn-primary"
+          onClick={this.redirectToAddPostPage}
+        />
       </div>
     );
   }

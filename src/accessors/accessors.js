@@ -1,6 +1,6 @@
 /* eslint-disable new-cap  */
 
-import {UserAuthWrapper} from 'redux-auth-wrapper';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
 
 export const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.authentication, // how to get the user state

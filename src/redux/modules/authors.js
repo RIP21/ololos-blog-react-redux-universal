@@ -4,7 +4,7 @@ import initialState from '../../constants/initialState';
 export function loadAuthors() {
   return {
     types: [types.LOAD_AUTHORS, types.LOAD_AUTHORS_SUCCESS, types.LOAD_AUTHORS_FAIL],
-    promise: (client) => client.get('/api/authors')
+    promise: client => client.get('/api/authors')
   };
 }
 
@@ -22,5 +22,4 @@ export default function authorReducer(state = initialState.authors, action = {})
       return state;
   }
 }
-
 

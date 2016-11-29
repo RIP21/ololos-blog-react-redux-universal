@@ -1,10 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import PostListRow from './PostListRow';
 
-const PostList = ({posts, onDelete}) => {
-  return (
-    <table className="table">
-      <thead>
+const PostList = ({ posts, onDelete }) => (
+  <table className="table">
+    <thead>
       <tr>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -13,15 +12,14 @@ const PostList = ({posts, onDelete}) => {
         <th>Author</th>
         <th>Date</th>
       </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
       {posts.map(post =>
-        <PostListRow key={post.id} post={post} onDelete={onDelete}/>
+        <PostListRow key={post.id} post={post} onDelete={onDelete} />
       )}
-      </tbody>
-    </table>
+    </tbody>
+  </table>
   );
-};
 
 PostList.propTypes = {
   posts: PropTypes.array.isRequired,

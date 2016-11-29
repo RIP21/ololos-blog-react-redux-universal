@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Remarkable from 'remarkable';
 
-const BlogPostBody = ({post}) => {
+const BlogPostBody = ({ post }) => {
   function addImgBootstrapClasses(htmlBody) {
     return htmlBody.replace(new RegExp('<img', 'g'), '<img class="img-responsive img-rounded"');
   }

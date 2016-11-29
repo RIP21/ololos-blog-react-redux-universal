@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {sortNewPostsFirstSelector} from './selectors';
+import { expect } from 'chai';
+import { sortNewPostsFirstSelector } from './selectors';
 
 
 describe('Post Selector', () => {

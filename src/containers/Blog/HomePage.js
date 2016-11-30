@@ -1,17 +1,12 @@
 import React, { PropTypes } from 'react';
-import BlogHeader from '../../common/BlogHeader';
-import HomePageRow from './HomePageRow';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import HomePageRow from './HomePageRow';
+import BlogHeader from '../../common/BlogHeader';
 import * as postsActions from '../../redux/modules/posts';
 import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
 class HomePage extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-  }
-
 
   render() {
     return (

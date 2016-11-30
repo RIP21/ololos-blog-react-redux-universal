@@ -1,9 +1,9 @@
-import PostList from './PostList';
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import PostList from './PostList';
 import * as postActions from '../../redux/modules/posts';
 import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
@@ -23,9 +23,9 @@ class ManagePostsPage extends React.Component {
       });
   }
 
-  redirectToAddPostPage() {
+  redirectToAddPostPage = () => {
     browserHistory.push('/admin/create/post');
-  }
+  };
 
   render() {
     const { posts } = this.props;

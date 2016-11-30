@@ -11,7 +11,7 @@ const BlogPost = ({ post, open }) => (
     <BlogPostHeader post={post} open={open} />
     {open ? <BlogPostBody post={post} /> :
     <div>
-      <img className="img-responsive img-rounded" src={post.previewPic} />
+      <img className="img-responsive img-rounded" alt={post.title} src={post.previewPic} />
       <div dangerouslySetInnerHTML={{ __html: new Remarkable().render(post.description) }} />
       <Link to={`/post/${post.id}`}>Читать далее...</Link>
     </div>}

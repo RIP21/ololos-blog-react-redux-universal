@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 
 const PostListRow = ({ post, onDelete }) => (
   <tr>
-    <td><a href="#" onClick={event => onDelete(event, post)}>Delete</a></td>
+    <td><a href="/delete" onClick={event => onDelete(event, post)}>Delete</a></td>
     <td><Link to={`/admin/edit/post/${post.id}`}>Edit</Link></td>
     <td>{post.id}</td>
     <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>

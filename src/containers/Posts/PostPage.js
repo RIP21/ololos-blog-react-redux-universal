@@ -3,23 +3,19 @@ import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import objectAssign from 'object-assign';
 import DisqusThread from 'react-disqus-thread';
+import {asyncConnect} from 'redux-async-connect';
 import {getById} from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import BlogPost from '../../common/BlogPost';
 import * as postActions from '../../redux/modules/posts';
-import {asyncConnect} from 'redux-async-connect';
 import * as authorsAction from '../../redux/modules/authors';
 
 @asyncConnect([{
   deferred: true,
-  promise: ({store: {dispatch}}) => {
-    return dispatch(postActions.loadPosts());
-  }
+  promise: ({store: {dispatch}}) => dispatch(postActions.loadPosts())
 }, {
   deffered: true,
-  promise: ({store: {dispatch}}) => {
-    return dispatch(authorsAction.loadAuthors());
-  }
+  promise: ({store: {dispatch}}) => dispatch(authorsAction.loadAuthors())
 }])
 
 class PostPage extends React.Component {
@@ -28,25 +24,17 @@ class PostPage extends React.Component {
 
     this.state = {
       post: objectAssign({}, props.post),
-      errors: {},
-      saving: false,
     };
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.post.id !== nextProps.post.id) {
-  //     // Necessary to populate form when existing post is loaded directly.
-  //     this.setState({post: Object.assign({}, nextProps.post)});
-  //   }
-  // }
 
   render() {
     return (
       <div className="blog-main">
         <BlogPost post={this.state.post} open/>
-        <DisqusThread shortname="ololos"
-                      identifier={this.props.post.id}
-                      title={this.props.post.title}
+        <DisqusThread
+          shortname="ololos"
+          identifier={this.props.post.id}
+          title={this.props.post.title}
         />
       </div>
     );
@@ -55,9 +43,6 @@ class PostPage extends React.Component {
 
 PostPage.propTypes = {
   post: PropTypes.object.isRequired,
-  posts: PropTypes.array.isRequired,
-  errors: PropTypes.object,
-  saving: PropTypes.bool
 };
 
 

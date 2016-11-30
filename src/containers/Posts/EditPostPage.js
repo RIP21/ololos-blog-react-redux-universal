@@ -80,9 +80,6 @@ class EditPostPage extends React.Component {
 EditPostPage.propTypes = {
   actions: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-  posts: PropTypes.array.isRequired,
-  errors: PropTypes.object,
-  saving: PropTypes.bool,
 };
 
 EditPostPage.contextTypes = {

@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../constants/initialState';
+/*eslint-disable no-underscore-dangle*/
 
 export function loadAuthors() {
   return {

@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react';
-import TextInput from '../../common/TextInput';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import TextInput from '../../common/TextInput';
 import SimpleMDE from '../../components/SimpleMde/SimpleMde';
 import '../../../node_modules/simplemde/dist/simplemde.min.css';
 
 
 class EditPostForm extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
 
   render() {
     const { saving, onSave, post, onChange, errors, handleEditorChange } = this.props;

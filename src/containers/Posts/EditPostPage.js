@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import objectAssign from 'object-assign';
 import React, { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { getById } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import * as postActions from '../../redux/modules/posts';
@@ -14,8 +13,6 @@ class EditPostPage extends React.Component {
 
     this.state = {
       post: objectAssign({}, props.post),
-      errors: {},
-      saving: false
     };
 
     this.updatePostState = this.updatePostState.bind(this);
@@ -42,24 +39,20 @@ class EditPostPage extends React.Component {
   }
 
   updateOrCreate(post) {
-    const { updatePost, createPost } = this.props.actions;
-    return post.id ? updatePost : createPost;
+    const { updatePost, createPost } = this.props;
+    return post.id ? updatePost(post) : createPost(post);
   }
 
 
   savePost(event) {
     const post = this.state.post;
     event.preventDefault();
-    this.setState({ saving: true });
-    this.updateOrCreate(post)(post)
-      .then(() => this.redirect())
-      .catch(() => {
-        this.setState({ saving: false });
-      });
+    this.updateOrCreate(post);
+    this.redirect();
   }
 
+
   redirect() {
-    this.setState({ saving: false });
     this.context.router.push('/admin/posts');
   }
 
@@ -67,8 +60,7 @@ class EditPostPage extends React.Component {
     return (
       <EditPostForm
         post={this.state.post}
-        saving={this.state.saving}
-        errors={this.state.errors}
+        loading={this.state.loading}
         onChange={this.updatePostState}
         handleEditorChange={this.handleEditorChange}
         onSave={this.savePost}
@@ -78,7 +70,8 @@ class EditPostPage extends React.Component {
 }
 
 EditPostPage.propTypes = {
-  actions: PropTypes.object.isRequired,
+  createPost: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 };
 
@@ -87,23 +80,19 @@ EditPostPage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const {posts} = state.posts;
+
   const postId = ownProps.params.id;
   let post = Empty.POST;
 
-  if (postId && state.posts.length > 0) {
-    post = getById(state.posts, postId);
+  if (postId && posts.length > 0) {
+    post = getById(posts, postId);
   }
   return {
     post,
-    posts: state.posts
+    posts,
+    loading: state.posts.loading,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(postActions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);
-
+export default connect(mapStateToProps, { ...postActions })(EditPostPage);

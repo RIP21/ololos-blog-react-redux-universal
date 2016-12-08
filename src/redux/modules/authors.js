@@ -1,22 +1,18 @@
-import * as types from '../../constants/actionTypes';
 import initialState from '../../constants/initialState';
 /*eslint-disable no-underscore-dangle*/
 
-export function loadAuthors() {
-  return {
-    types: [types.LOAD_AUTHORS, types.LOAD_AUTHORS_SUCCESS, types.LOAD_AUTHORS_FAIL],
-    promise: client => client.get('/api/authors')
-  };
-}
+export const LOAD_AUTHORS = 'authors/LOAD_ALL';
+export const LOAD_AUTHORS_FAIL = 'authors/LOAD_ALL_FAIL';
+export const LOAD_AUTHORS_SUCCESS = 'authors/LOAD_ALL_SUCCESS';
 
-export default function authorReducer(state = initialState.authors, action = {}) {
+export default function reducer(state = initialState.authors, action = {}) {
   switch (action.type) {
 
-    case types.LOAD_AUTHORS:
+    case LOAD_AUTHORS:
       return state;
-    case types.LOAD_AUTHORS_SUCCESS:
+    case LOAD_AUTHORS_SUCCESS:
       return action.result._embedded.authors;
-    case types.LOAD_AUTHORS_FAIL:
+    case LOAD_AUTHORS_FAIL:
       return state;
 
     default:
@@ -24,3 +20,9 @@ export default function authorReducer(state = initialState.authors, action = {})
   }
 }
 
+export function loadAuthors() {
+  return {
+    types: [LOAD_AUTHORS, LOAD_AUTHORS_SUCCESS, LOAD_AUTHORS_FAIL],
+    promise: client => client.get('api/authors')
+  };
+}

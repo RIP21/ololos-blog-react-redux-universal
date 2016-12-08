@@ -6,7 +6,7 @@ import DisqusThread from 'react-disqus-thread';
 import { asyncConnect } from 'redux-async-connect';
 import { getById } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
-import BlogPost from '../../common/BlogPost';
+import BlogPost from '../../components/BlogPost/BlogPost';
 import * as postActions from '../../redux/modules/posts';
 import * as authorsAction from '../../redux/modules/authors';
 
@@ -47,16 +47,17 @@ PostPage.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
+  const {posts} = state.posts;
   const postId = ownProps.params.id;
   let post = Empty.POST;
 
-  if (postId && state.posts.length > 0) {
-    post = getById(state.posts, postId);
+  if (postId && posts.length > 0) {
+    post = getById(posts, postId);
   }
 
   return {
     post,
-    posts: state.posts
+    posts
   };
 }
 

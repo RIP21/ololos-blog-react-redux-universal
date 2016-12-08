@@ -12,7 +12,7 @@ export function getById(entries, id) {
   return null;
 }
 
-const postsSelector = state => state.posts;
+const postsSelector = state => state.posts.posts;
 
 export const sortNewPostsFirstSelector = createSelector(
   postsSelector,

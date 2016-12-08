@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import TextInput from '../../common/TextInput';
-import SimpleMDE from '../../components/SimpleMde/SimpleMde';
+import SimpleMDE from 'react-simplemde-editor/src/index';
+import TextInput from '../../components/Inputs/TextInput';
 import '../../../node_modules/simplemde/dist/simplemde.min.css';
 
 
@@ -11,7 +11,7 @@ class EditPostForm extends React.Component {
 
 
   render() {
-    const { saving, onSave, post, onChange, errors, handleEditorChange } = this.props;
+    const { loading, onSave, post, onChange, handleEditorChange } = this.props;
     return (
       <form>
         {post.id === '' ? <h1>Create post</h1> : <h1>Edit post</h1>}
@@ -21,7 +21,6 @@ class EditPostForm extends React.Component {
           label="Title:"
           value={post.title}
           onChange={onChange}
-          error={errors.title}
         />
 
         <TextInput
@@ -29,7 +28,6 @@ class EditPostForm extends React.Component {
           label="Preview Picture link:"
           value={post.previewPic}
           onChange={onChange}
-          error={errors.previewPic}
         />
 
         <FormGroup controlId="formControlsTextarea">
@@ -50,8 +48,8 @@ class EditPostForm extends React.Component {
 
         <input
           type="submit"
-          disabled={saving}
-          value={saving ? 'Saving...' : 'Save'}
+          disabled={loading}
+          value={loading ? 'Saving...' : 'Save'}
           className="btn btn-primary"
           onClick={onSave}
         />
@@ -62,12 +60,11 @@ class EditPostForm extends React.Component {
 
 
 EditPostForm.propTypes = {
-  saving: PropTypes.bool,
+  loading: PropTypes.bool,
   onSave: PropTypes.func,
   post: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   handleEditorChange: PropTypes.func.isRequired,
-  errors: PropTypes.object
 };
 
 export default EditPostForm;

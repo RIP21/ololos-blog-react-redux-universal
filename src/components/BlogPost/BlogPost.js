@@ -2,8 +2,8 @@
 import { Link } from 'react-router';
 import Remarkable from 'remarkable';
 import React, { PropTypes } from 'react';
-import BlogPostBody from '../common/BlogPostBody';
-import BlogPostHeader from '../common/BlogPostHeader';
+import BlogPostBody from './BlogPostBody';
+import BlogPostHeader from './BlogPostHeader';
 
 
 const BlogPost = ({ post, open }) => (

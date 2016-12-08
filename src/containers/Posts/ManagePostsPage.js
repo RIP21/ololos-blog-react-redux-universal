@@ -12,15 +12,12 @@ class ManagePostsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.redirectToAddPostPage = this.redirectToAddPostPage.bind(this);
     this.deletePost = this.deletePost.bind(this);
   }
 
   deletePost(event, post) {
     event.preventDefault();
-    this.props.actions.deletePost(post.id)
-      .then(() => {
-      });
+    this.props.actions.deletePost(post.id);
   }
 
   redirectToAddPostPage = () => {

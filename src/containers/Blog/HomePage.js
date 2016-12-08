@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import HomePageRow from './HomePageRow';
-import BlogHeader from '../../common/BlogHeader';
+import BlogHeader from '../../components/BlogPost/BlogHeader';
 import * as postsActions from '../../redux/modules/posts';
 import { sortNewPostsFirstSelector } from '../../selector/selectors';
 

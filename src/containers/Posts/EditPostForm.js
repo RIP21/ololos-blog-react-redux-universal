@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import SimpleMDE from 'react-simplemde-editor/src/index';
+import SimpleMDE from 'react-simplemde-editor';
 import TextInput from '../../components/Inputs/TextInput';
 import '../../../node_modules/simplemde/dist/simplemde.min.css';
 

@@ -23,6 +23,6 @@ export default function reducer(state = initialState.authors, action = {}) {
 export function loadAuthors() {
   return {
     types: [LOAD_AUTHORS, LOAD_AUTHORS_SUCCESS, LOAD_AUTHORS_FAIL],
-    promise: client => client.get('api/authors')
+    promise: client => client.get('/authors')
   };
 }

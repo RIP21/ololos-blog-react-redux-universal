@@ -48,11 +48,6 @@ class EditPostPage extends React.Component {
     const post = this.state.post;
     event.preventDefault();
     this.updateOrCreate(post);
-    this.redirect();
-  }
-
-
-  redirect() {
     this.context.router.push('/admin/posts');
   }
 

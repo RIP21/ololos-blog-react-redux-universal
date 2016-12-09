@@ -44,7 +44,11 @@ export default function reducer(state = initialState.posts, action = {}) {
       };
 
     case DELETE_POST_SUCCESS:
-      return [...state.posts.filter(post => post.id !== action.result.id)];
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts.filter(post => post.id !== action.result.id)]
+      };
 
     case LOAD_POSTS_SUCCESS:
       return {
@@ -60,7 +64,7 @@ export default function reducer(state = initialState.posts, action = {}) {
 export function loadPosts() {
   return {
     types: [LOAD_POSTS, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAIL],
-    promise: client => client.get('api/posts')
+    promise: client => client.get('/posts')
   };
 }
 
@@ -72,20 +76,20 @@ export function createPost(post) {
   post.author = {id: 'RIP21', authorName: 'Andrii Los'}; //eslint-disable-line
   return {
     types: [CREATE_POST, CREATE_POST_SUCCESS, CREATE_POST_FAIL],
-    promise: client => client.post('/api/posts', {data: post})
+    promise: client => client.post('/posts', {data: post})
   };
 }
 
 export function updatePost(post) {
   return {
     types: [UPDATE_POST, UPDATE_POST_SUCCESS, UPDATE_POST_FAIL],
-    promise: client => client.put(`/api/posts/${post.id}`, {data: post})
+    promise: client => client.put(`/posts/${post.id}`, {data: post})
   };
 }
 
 export function deletePost(postId) {
   return {
     types: [DELETE_POST, DELETE_POST_SUCCESS, DELETE_POST_FAIL],
-    promise: client => client.put(`/api/posts/${postId}`, {data: {}})
+    promise: client => client.put(`/posts/${postId}`, {data: {}})
   };
 }

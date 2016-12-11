@@ -9,15 +9,33 @@ export default function reducer(state = initialState.authors, action = {}) {
   switch (action.type) {
 
     case LOAD_AUTHORS:
-      return state;
+      return {
+        ...state,
+        loaded: true,
+        loading: false,
+      };
     case LOAD_AUTHORS_SUCCESS:
-      return action.result._embedded.authors;
+      return {
+        ...state,
+        loaded: true,
+        loading: false,
+        authors: action.result._embedded.authors
+      };
     case LOAD_AUTHORS_FAIL:
-      return state;
+      return {
+        ...state,
+        loaded: false,
+        loading: false,
+        error: action.error
+      };
 
     default:
       return state;
   }
+}
+
+export function isLoaded(globalState) {
+  return globalState.authors && globalState.authors.loaded;
 }
 
 export function loadAuthors() {

@@ -53,12 +53,18 @@ export default function reducer(state = initialState.posts, action = {}) {
     case LOAD_POSTS_SUCCESS:
       return {
         ...state,
+        loaded: true,
         loading: false,
         posts: action.result._embedded.posts
       };
     default:
       return state;
   }
+}
+
+
+export function isLoaded(globalState) {
+  return globalState.posts && globalState.posts.loaded;
 }
 
 export function loadPosts() {

@@ -3,20 +3,10 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import objectAssign from 'object-assign';
 import DisqusThread from 'react-disqus-thread';
-import { asyncConnect } from 'redux-async-connect';
 import { getById } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import BlogPost from '../../components/BlogPost/BlogPost';
 import * as postActions from '../../redux/modules/posts';
-import * as authorsAction from '../../redux/modules/authors';
-
-@asyncConnect([{
-  deferred: true,
-  promise: ({ store: { dispatch } }) => dispatch(postActions.loadPosts())
-}, {
-  deffered: true,
-  promise: ({ store: { dispatch } }) => dispatch(authorsAction.loadAuthors())
-}])
 
 class PostPage extends React.Component {
   constructor(props, context) {

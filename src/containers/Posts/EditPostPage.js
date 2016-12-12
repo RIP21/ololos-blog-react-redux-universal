@@ -23,7 +23,7 @@ class EditPostPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.post.id !== nextProps.post.id) {
       // Necessary to populate form when existing post is loaded directly.
-      this.setState({ post: Object.assign({}, nextProps.post) });
+      this.setState({post: Object.assign({}, nextProps.post)});
     }
   }
 
@@ -31,18 +31,17 @@ class EditPostPage extends React.Component {
     const field = event.target.name;
     const post = this.state.post;
     post[field] = event.target.value;
-    return this.setState({ post });
+    return this.setState({post});
   }
 
   handleEditorChange(value) {
-    return this.setState({ post: objectAssign(this.state.post, { body: value }) });
+    return this.setState({post: objectAssign(this.state.post, {body: value})});
   }
 
   updateOrCreate(post) {
-    const { updatePost, createPost } = this.props;
+    const {updatePost, createPost} = this.props;
     return post.id ? updatePost(post) : createPost(post);
   }
-
 
   savePost(event) {
     const post = this.state.post;
@@ -53,13 +52,15 @@ class EditPostPage extends React.Component {
 
   render() {
     return (
-      <EditPostForm
-        post={this.state.post}
-        loading={this.state.loading}
-        onChange={this.updatePostState}
-        handleEditorChange={this.handleEditorChange}
-        onSave={this.savePost}
-      />
+      <div className="container">
+        <EditPostForm
+          post={this.state.post}
+          loading={this.state.loading}
+          onChange={this.updatePostState}
+          handleEditorChange={this.handleEditorChange}
+          onSave={this.savePost}
+        />
+      </div>
     );
   }
 }
@@ -90,4 +91,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, { ...postActions })(EditPostPage);
+export default connect(mapStateToProps, {...postActions})(EditPostPage);

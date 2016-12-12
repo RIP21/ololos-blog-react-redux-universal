@@ -27,7 +27,7 @@ class ManagePostsPage extends React.Component {
   render() {
     const { posts } = this.props;
     return (
-      <div>
+      <div className="container">
         <Helmet title="Manage posts page" />
         <h1>Posts</h1>
         <PostList posts={posts} onDelete={this.deletePost} />

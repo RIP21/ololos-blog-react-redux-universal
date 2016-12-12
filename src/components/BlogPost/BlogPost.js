@@ -7,7 +7,7 @@ import BlogPostHeader from './BlogPostHeader';
 
 
 const BlogPost = ({ post, open }) => (
-  <div className="blog-post">
+  <div>
     <BlogPostHeader post={post} open={open} />
     {open ? <BlogPostBody post={post} /> :
     <div>

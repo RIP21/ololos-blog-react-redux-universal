@@ -19,7 +19,7 @@ class PostPage extends React.Component {
 
   render() {
     return (
-      <div className="blog-main">
+      <div className="container">
         <BlogPost post={this.state.post} open />
         <DisqusThread
           shortname="ololos"

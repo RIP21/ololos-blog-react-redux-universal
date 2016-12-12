@@ -5,9 +5,9 @@ import dateformat from 'dateformat';
 const BlogPostHeader = ({ post, open = false }) => (
   <div>
     {!open ?
-      <h2 className="blog-post-title"><Link to={`/post/${post.id}`}>{post.title}</Link></h2>
-        : <h2 className="blog-post-title"> {post.title}</h2>}
-    <p className="blog-post-meta">{dateformat(post.postdate)} by <Link
+      <h2><Link to={`/post/${post.id}`}>{post.title}</Link></h2>
+        : <h2> {post.title}</h2>}
+    <p>{dateformat(post.postdate)} by <Link
       to={`api/author/${post.author.id}`}
     >{post.author.id}</Link>
     </p>

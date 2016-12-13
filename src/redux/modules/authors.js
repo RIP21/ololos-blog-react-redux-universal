@@ -1,11 +1,9 @@
-import initialState from '../../constants/initialState';
 /*eslint-disable no-underscore-dangle*/
-
 export const LOAD_AUTHORS = 'authors/LOAD_ALL';
 export const LOAD_AUTHORS_FAIL = 'authors/LOAD_ALL_FAIL';
 export const LOAD_AUTHORS_SUCCESS = 'authors/LOAD_ALL_SUCCESS';
 
-export default function reducer(state = initialState.authors, action = {}) {
+export default function reducer(state = [], action = {}) {
   switch (action.type) {
 
     case LOAD_AUTHORS:

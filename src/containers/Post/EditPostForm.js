@@ -14,27 +14,29 @@ class EditPostForm extends React.Component {
     const { loading, onSave, post, onChange, handleEditorChange } = this.props;
     return (
       <form>
-        {post.id === '' ? <h1>Create post</h1> : <h1>Edit post</h1>}
+        {post.id === '' ? <h1>Создать пост</h1> : <h1>Редактировать пост</h1>}
 
         <TextInput
           name="title"
-          label="Title:"
+          label="Заголовок"
           value={post.title}
           onChange={onChange}
+          placeholder="Введите заголовок"
         />
 
         <TextInput
           name="previewPic"
-          label="Preview Picture link:"
+          label="Превью картинка"
           value={post.previewPic}
           onChange={onChange}
+          placeholder="Ссылка на фотографию. Будет показана на главной странице."
         />
 
         <FormGroup controlId="formControlsTextarea">
-          <ControlLabel>Short Description:</ControlLabel>
+          <ControlLabel>Короткое описание</ControlLabel>
           <FormControl
             name="description" componentClass="textarea"
-            placeholder="Short Description {Markdown syntax supported}" value={post.description}
+            placeholder="Введите короткое описание {Markdown syntax supported}" value={post.description}
             onChange={onChange}
           />
         </FormGroup>
@@ -49,8 +51,8 @@ class EditPostForm extends React.Component {
         <input
           type="submit"
           disabled={loading}
-          value={loading ? 'Saving...' : 'Save'}
-          className="btn btn-primary"
+          value={loading ? 'Сохраняю...' : 'Сохранить'}
+          className="btn btn-success"
           onClick={onSave}
         />
       </form>

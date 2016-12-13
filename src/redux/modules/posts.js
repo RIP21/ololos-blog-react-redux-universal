@@ -1,4 +1,3 @@
-import initialState from '../../constants/initialState';
 /*eslint-disable no-underscore-dangle*/
 
 export const LOAD_POSTS = 'posts/LOAD_ALL';
@@ -17,21 +16,23 @@ export const DELETE_POST = 'posts/DELETE';
 export const DELETE_POST_FAIL = 'posts/DELETE_FAIL';
 export const DELETE_POST_SUCCESS = 'posts/DELETE_SUCCESS';
 
-export default function reducer(state = initialState.posts, action = {}) {
+export default function reducer(state = [], action = {}) {
   switch (action.type) {
 
+    case LOAD_POSTS:
     case CREATE_POST:
     case DELETE_POST:
-    case LOAD_POSTS:
     case UPDATE_POST:
       return {
         ...state,
+        loaded: false,
         loading: true
       };
 
     case CREATE_POST_SUCCESS:
       return {
         ...state,
+        loaded: true,
         loading: false,
         posts: [...state.posts, Object.assign({}, action.result)]
       };
@@ -39,6 +40,7 @@ export default function reducer(state = initialState.posts, action = {}) {
     case UPDATE_POST_SUCCESS:
       return {
         ...state,
+        loaded: true,
         loading: false,
         posts: [...state.posts.filter(post => post.id !== action.result.id), Object.assign({}, action.result)]
       };
@@ -46,6 +48,7 @@ export default function reducer(state = initialState.posts, action = {}) {
     case DELETE_POST_SUCCESS:
       return {
         ...state,
+        loaded: true,
         loading: false,
         posts: [...state.posts.filter(post => post.id !== action.result.id)]
       };
@@ -57,6 +60,17 @@ export default function reducer(state = initialState.posts, action = {}) {
         loading: false,
         posts: action.result._embedded.posts
       };
+
+    case LOAD_POSTS_FAIL:
+    case CREATE_POST_FAIL:
+    case UPDATE_POST_FAIL:
+    case DELETE_POST_FAIL:
+      return {
+        ...state,
+        loaded: false,
+        loading: false,
+        error: action.error
+      };
     default:
       return state;
   }
@@ -67,6 +81,10 @@ export function isLoaded(globalState) {
   return globalState.posts && globalState.posts.loaded;
 }
 
+export function isLoading(globalState) {
+  return globalState.posts && globalState.posts.loading;
+}
+
 export function loadPosts() {
   return {
     types: [LOAD_POSTS, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAIL],
@@ -74,12 +92,7 @@ export function loadPosts() {
   };
 }
 
-/*const getAuthorByAuthentication = (getState) => {
- return getState().authors.filter(author => author.id === getState().authentication.username)[0];
- };*/
-
 export function createPost(post) {
-  post.author = {id: 'RIP21', authorName: 'Andrii Los'}; //eslint-disable-line
   return {
     types: [CREATE_POST, CREATE_POST_SUCCESS, CREATE_POST_FAIL],
     promise: client => client.post('/posts', {data: post})

@@ -29,7 +29,9 @@ const privateRoute = Wrapped => connect(mapStateToProps, mapDispatchToProps)(cla
   }
 
   componentWillUnmount() {
-    this.props.saveRouteToBackRedirect(this.props.location);
+    if (!this.props.auth.user) {
+      this.props.saveRouteToBackRedirect(this.props.location);
+    }
   }
 
   redirectIfNotLogged(props) {

@@ -5,12 +5,12 @@ const PostList = ({ posts, onDelete }) => (
   <table className="table">
     <thead>
       <tr>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
         <th>ID</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Date</th>
+        <th>Заголовок</th>
+        <th>Автор</th>
+        <th>Дата публикации</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>

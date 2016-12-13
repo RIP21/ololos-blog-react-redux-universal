@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import objectAssign from 'object-assign';
 import React, { PropTypes } from 'react';
+import { push } from 'react-router-redux';
 import { getById } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import * as postActions from '../../redux/modules/posts';
@@ -40,14 +41,18 @@ class EditPostPage extends React.Component {
 
   updateOrCreate(post) {
     const {updatePost, createPost} = this.props;
-    return post.id ? updatePost(post) : createPost(post);
+    if (post.id) {
+      return updatePost(post);
+    }
+    post.author = this.props.author; //eslint-disable-line
+    return createPost(post);
   }
 
   savePost(event) {
     const post = this.state.post;
     event.preventDefault();
-    this.updateOrCreate(post);
-    this.context.router.push('/admin/posts');
+    this.updateOrCreate(post); //TODO: Add NO REDIRECT in case of error.
+    this.props.push('/admin/posts');
   }
 
   render() {
@@ -69,26 +74,32 @@ EditPostPage.propTypes = {
   createPost: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
-};
-
-EditPostPage.contextTypes = {
-  router: PropTypes.object
+  author: PropTypes.object.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
   const {posts} = state.posts;
+  const {authors} = state.authors;
+  const {userName} = state.auth.user;
 
   const postId = ownProps.params.id;
   let post = Empty.POST;
+  let author = Empty.AUTHOR;
+
+  //TODO: Put this copypaste code to some sort of utils/selectors
+  if (userName && authors.length > 0) {
+    author = getById(authors, userName);
+  }
 
   if (postId && posts.length > 0) {
     post = getById(posts, postId);
   }
   return {
+    author,
     post,
-    posts,
-    loading: state.posts.loading,
+    loading: state.posts.loading
   };
 }
 
-export default connect(mapStateToProps, {...postActions})(EditPostPage);
+export default connect(mapStateToProps, {...postActions, push})(EditPostPage);

@@ -33,7 +33,7 @@ class ManagePostsPage extends React.Component {
         <PostList posts={posts} onDelete={this.deletePost} />
         <input
           type="submit"
-          value="Add Post"
+          value="Создать новый"
           className="btn btn-primary"
           onClick={this.redirectToAddPostPage}
         />

@@ -17,12 +17,11 @@ class PostPage extends React.Component {
       {name: 'twitter:title', content: this.props.post.title},
       {name: 'twitter:description', content: this.props.post.description},
       {name: 'twitter:image', content: this.props.post.previewPic},
+      {property: 'og:url', content: `http://ololos.space/post/${this.props.post.id}`},
       {property: 'og:type', content: 'article'},
       {property: 'og:image', content: this.props.post.previewPic},
       {property: 'og:title', content: this.props.post.title},
       {property: 'og:description', content: this.props.post.description},
-      {property: 'og:card', content: this.props.post.title},
-      {property: 'og:creator', content: this.props.post.author.authorName},
     ]
   };
 

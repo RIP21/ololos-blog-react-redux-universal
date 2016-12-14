@@ -11,7 +11,8 @@ const ModalLoading = ({show, onClose, error}) => (
     </ModalHeader>
     <ModalBody>
       Братишка, возникла ошибка!
-      "{error.message}"
+      <br/>
+      {error.message}
     </ModalBody>
     <Modal.Footer>
       <button className="btn btn-danger" onClick={onClose}>Закрыть</button>

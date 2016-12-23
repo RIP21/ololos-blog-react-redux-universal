@@ -1,0 +1,18 @@
+plugins {
+    id "com.moowork.node" version "0.13"
+}
+
+apply plugin: 'base'
+version '0.0.1'
+
+node {
+    version = '7.3.0'
+    npmVersion = '4.0.5'
+    download = true
+}
+
+task runBuild(type: NpmTask) {
+    args = ['run', 'build']
+}
+
+assemble.dependsOn(runBuild)

@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import SimpleMDE from 'react-simplemde-editor';
 import TextInput from '../../components/Inputs/TextInput';
 import '../../../node_modules/simplemde/dist/simplemde.min.css';
 
-
 class EditPostForm extends React.Component {
 
-
   render() {
-    const { loading, onSave, post, onChange, handleEditorChange } = this.props;
+    const {loading, onSave, post, onChange, handleEditorChange} = this.props;
     return (
       <form>
         {post.id === '' ? <h1>Создать пост</h1> : <h1>Редактировать пост</h1>}
@@ -34,17 +31,41 @@ class EditPostForm extends React.Component {
 
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>Короткое описание</ControlLabel>
-          <FormControl
-            name="description" componentClass="textarea"
-            placeholder="Введите короткое описание {Markdown syntax supported}" value={post.description}
-            onChange={onChange}
+          <SimpleMDE
+            id={`description-${post.id}`}
+            value={post.description}
+            onChange={value => handleEditorChange(value, 'description')}
+            options={{
+              placeholder: 'Введите короткое описание {Markdown синтаксис поддерживается}',
+              spellChecker: false,
+              toolbar: [
+                'bold', 'italic', 'strikethrough', '|',
+                'heading-1', 'heading-2', 'heading-3', '|',
+                'heading-smaller', 'heading-bigger', '|',
+                'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'image', '|',
+                'table', 'horizontal-rule', '|',
+                'preview', '|',
+                'guide'
+              ],
+            }}
           />
         </FormGroup>
 
         <SimpleMDE
-          name="body" id={`SimpleMDE-${post.id}`} onChange={handleEditorChange} value={post.body} options={{
-            autofocus: true,
-            spellChecker: false
+          id={`body-${post.id}`}
+          onChange={value => handleEditorChange(value, 'body')}
+          value={post.body}
+          options={{
+            spellChecker: false,
+            toolbar: [
+              'bold', 'italic', 'strikethrough', '|',
+              'heading-1', 'heading-2', 'heading-3', '|',
+              'heading-smaller', 'heading-bigger', '|',
+              'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'image', '|',
+              'table', 'horizontal-rule', '|',
+              'preview', '|',
+              'guide'
+            ],
           }}
         />
 
@@ -59,7 +80,6 @@ class EditPostForm extends React.Component {
     );
   }
 }
-
 
 EditPostForm.propTypes = {
   loading: PropTypes.bool,

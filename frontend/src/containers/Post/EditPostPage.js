@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import objectAssign from 'object-assign';
 import React, { PropTypes } from 'react';
 import { push } from 'react-router-redux';
-import { getById } from '../../selector/selectors';
+import { getById } from '../../utils/helpers';
+import {postsSelector, authorsSelector } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import * as postActions from '../../redux/modules/posts';
 import EditPostForm from './EditPostForm';
@@ -35,8 +36,8 @@ class EditPostPage extends React.Component {
     return this.setState({post});
   }
 
-  handleEditorChange(value) {
-    return this.setState({post: objectAssign(this.state.post, {body: value})});
+  handleEditorChange(value, targetField) {
+    this.setState({post: objectAssign(this.state.post, {[targetField]: value})});
   }
 
   updateOrCreate(post) {
@@ -79,25 +80,11 @@ EditPostPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const {posts} = state.posts;
-  const {authors} = state.authors;
   const {userName} = state.auth.user;
 
-  const postId = ownProps.params.id;
-  let post = Empty.POST;
-  let author = Empty.AUTHOR;
-
-  //TODO: Put this copypaste code to some sort of utils/selectors
-  if (userName && authors.length > 0) {
-    author = getById(authors, userName);
-  }
-
-  if (postId && posts.length > 0) {
-    post = getById(posts, postId);
-  }
   return {
-    author,
-    post,
+    author: getById(authorsSelector(state), userName, Empty.AUTHOR),
+    post: getById(postsSelector(state), ownProps.params.id, Empty.POST),
     loading: state.posts.loading
   };
 }

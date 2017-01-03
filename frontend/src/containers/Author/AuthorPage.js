@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
-import { getById } from '../../selector/selectors';
+import { getById } from '../../utils/helpers';
+import {authorsSelector} from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import * as authorActions from '../../redux/modules/authors';
 
@@ -49,15 +50,8 @@ AuthorPage.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
-  const {authors} = state.authors;
-  const authorId = ownProps.params.id;
-  let author = Empty.AUTHOR;
-  //TODO: Same as others remove this
-  if (authorId && authors.length > 0) {
-    author = getById(authors, authorId);
-  }
   return {
-    author
+    author: getById(authorsSelector(state), ownProps.params.id, Empty.AUTHOR)
   };
 }
 

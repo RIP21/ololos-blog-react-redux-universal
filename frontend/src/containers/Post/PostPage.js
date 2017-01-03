@@ -3,10 +3,12 @@ import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import DisqusThread from 'react-disqus-thread';
-import { getById } from '../../selector/selectors';
+import { getById } from '../../utils/helpers';
+import {postsSelector} from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import BlogPost from '../../components/BlogPost/BlogPost';
 import * as postActions from '../../redux/modules/posts';
+
 
 class PostPage extends React.Component {
 
@@ -47,16 +49,8 @@ PostPage.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
-  const {posts} = state.posts;
-  const postId = ownProps.params.id;
-  let post = Empty.POST;
-
-  if (postId && posts.length > 0) {
-    post = getById(posts, postId);
-  }
-
   return {
-    post
+    post: getById(postsSelector(state), ownProps.params.id, Empty.POST),
   };
 }
 

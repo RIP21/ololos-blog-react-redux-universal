@@ -16,11 +16,14 @@ public class Post {
     @Id
     private String id;
     private String title;
+    private Author author;
     private String body;
     private String description;
     private String previewPic;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date postdate;
-    private Author author;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date editDate;
+    private Boolean published;
 
 }

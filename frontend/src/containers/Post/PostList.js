@@ -9,6 +9,7 @@ const PostList = ({ posts, onDelete }) => (
         <th>Заголовок</th>
         <th>Автор</th>
         <th>Дата публикации</th>
+        <th>Статус</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
       </tr>

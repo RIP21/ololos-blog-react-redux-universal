@@ -22,22 +22,19 @@ class EditPostPage extends React.Component {
     this.savePost = this.savePost.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.post.id !== nextProps.post.id) {
-      // Necessary to populate form when existing post is loaded directly.
-      this.setState({post: Object.assign({}, nextProps.post)});
-    }
+  setPostField(name, value) {
+    return this.setState({post: objectAssign({}, this.state.post, {[name]: value})});
   }
 
   updatePostState(event) {
-    const field = event.target.name;
-    const post = this.state.post;
-    post[field] = event.target.value;
-    return this.setState({post});
+    const {checked, type, value, name} = event.target;
+    const isCheckbox = type === 'checkbox';
+    const valueToSet = isCheckbox ? checked : value;
+    this.setPostField(name, valueToSet);
   }
 
-  handleEditorChange(value, targetField) {
-    this.setState({post: objectAssign(this.state.post, {[targetField]: value})});
+  handleEditorChange(value, field) {
+    this.setPostField(field, value);
   }
 
   updateOrCreate(post) {

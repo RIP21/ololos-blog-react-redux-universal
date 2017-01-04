@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import SimpleMDE from 'react-simplemde-editor';
+import SimpleMDE from 'react-simplemde-editor/src/index';
 import TextInput from '../../components/Inputs/TextInput';
 import '../../../node_modules/simplemde/dist/simplemde.min.css';
+import './SimpleMDE.scss';
 
 class EditPostForm extends React.Component {
 
@@ -28,25 +29,28 @@ class EditPostForm extends React.Component {
           onChange={onChange}
           placeholder="Ссылка на фотографию. Будет показана на главной странице."
         />
+        <div>
+          <input
+            type="checkbox"
+            name="published"
+            checked={post.published}
+            onChange={onChange}
+          /> Опубликован
+        </div>
 
         <FormGroup controlId="formControlsTextarea">
           <ControlLabel>Короткое описание</ControlLabel>
           <SimpleMDE
+            className="description"
             id={`description-${post.id}`}
             value={post.description}
             onChange={value => handleEditorChange(value, 'description')}
             options={{
               placeholder: 'Введите короткое описание {Markdown синтаксис поддерживается}',
               spellChecker: false,
-              toolbar: [
-                'bold', 'italic', 'strikethrough', '|',
-                'heading-1', 'heading-2', 'heading-3', '|',
-                'heading-smaller', 'heading-bigger', '|',
-                'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'image', '|',
-                'table', 'horizontal-rule', '|',
-                'preview', '|',
-                'guide'
-              ],
+              toolbar: ['bold'],
+              hideIcons: ['bold'],
+              status: false
             }}
           />
         </FormGroup>

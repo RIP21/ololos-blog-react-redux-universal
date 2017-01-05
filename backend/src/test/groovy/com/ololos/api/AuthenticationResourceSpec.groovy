@@ -30,10 +30,10 @@ class AuthenticationResourceSpec extends AbstractMvcSpec {
             def credentials = [username: 'user', password: 'badpassword']
 
         when:
-            def res = post('/api/session', credentials)
+            def res = post('/session', credentials)
 
         then:
-            res.status == HttpStatus.UNAUTHORIZED
+            res.status == HttpStatus.FORBIDDEN
     }
 
     def "good authentication"() {
@@ -41,7 +41,7 @@ class AuthenticationResourceSpec extends AbstractMvcSpec {
             def credentials = [username: 'RIP21', password: 'pass']
 
         when:
-            def res = post('/api/session', credentials)
+            def res = post('/session', credentials)
             token = res.json.token
 
         then:
@@ -52,7 +52,7 @@ class AuthenticationResourceSpec extends AbstractMvcSpec {
 
     def "get session"() {
         when:
-            def res = get('/api/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
+            def res = get('/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
 
         then:
             res.status == HttpStatus.OK
@@ -61,13 +61,13 @@ class AuthenticationResourceSpec extends AbstractMvcSpec {
 
     def "delete session"() {
         when:
-            def res = delete('/api/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
+            def res = delete('/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
 
         then:
             res.status == HttpStatus.OK
 
         when:
-            res = get('/api/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
+            res = get('/session', new RequestParams(cookies: [new Cookie("SESSION", token)]))
 
         then:
             res.status == HttpStatus.OK

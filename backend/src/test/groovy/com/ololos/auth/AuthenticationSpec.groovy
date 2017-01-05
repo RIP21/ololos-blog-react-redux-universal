@@ -8,7 +8,7 @@ class AuthenticationSpec extends AbstractMvcSpec {
 
     def "unauthenticated users can get resource"() {
         when:
-            def res = get("/api/posts")
+            def res = get("/posts")
 
         then:
             res.status == HttpStatus.OK
@@ -17,7 +17,7 @@ class AuthenticationSpec extends AbstractMvcSpec {
     @WithMockUser(roles = "ADMIN")
     def "authenticated users can get resource"() {
         when:
-            def res = get("/api/posts")
+            def res = get("/posts")
 
         then:
             res.status == HttpStatus.OK

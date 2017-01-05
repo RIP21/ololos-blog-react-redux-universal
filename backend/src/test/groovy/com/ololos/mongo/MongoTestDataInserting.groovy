@@ -16,11 +16,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 class MongoTestDataInserting extends AbstractMvcSpec {
 
     @Autowired
-    AuthorRepository authorRepository;
+    AuthorRepository authorRepository
     @Autowired
-    PostRepository postRepository;
+    PostRepository postRepository
     @Autowired
-    UserRepository userRepository;
+    UserRepository userRepository
 
     def "Insert test data"() {
         given:
@@ -34,13 +34,13 @@ class MongoTestDataInserting extends AbstractMvcSpec {
             Author second = new Author("LINA", "Lina Oleynik")
             authorRepository.save(first)
             authorRepository.save(second)
-            postRepository.save(new Post("title-1","title 1", "# Somebody post 1", new Date(), first))
-            postRepository.save(new Post("title-2","title 2", "# Somebody post 2", new Date(), second))
+            postRepository.save(new Post("title-1","title 1", first , "# Somebody post 1", "#Descr 1", "previewPic 1", new Date(), new Date(), true))
+            postRepository.save(new Post("title-2","title 2", second, "# Somebody post 2", "# Descr 2", "previewPic 2" ,new Date(), new Date(), true))
 
         then:
-            userRepository.findAll().size() == 2;
-            postRepository.findAll().size() == 2;
-            authorRepository.findAll().size() == 2;
+            userRepository.findAll().size() == 2
+            postRepository.findAll().size() == 2
+            authorRepository.findAll().size() == 2
 
 
     }

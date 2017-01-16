@@ -2,9 +2,7 @@ package com.ololos.service
 
 import com.ibm.icu.text.Transliterator
 import spock.lang.Specification
-/**
- * Created by puha2 on 23.10.2016.
- */
+
 class PostSpec extends Specification {
 
     def "ID setter remove all special characters and form proper ID"() {

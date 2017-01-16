@@ -15,7 +15,7 @@ import spockmvc.SpockMvcSpec
 abstract class AbstractMvcSpec extends SpockMvcSpec {
 
     @Shared
-    private def sessionRepository = new MapSessionRepository()
+    private sessionRepository = new MapSessionRepository()
 
     @Override
     MockMvc buildMockMvc(WebApplicationContext wac) {

@@ -9,16 +9,15 @@ import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
 class ManagePostsPage extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
+  static propTypes = {
+    posts: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
+  };
 
-    this.deletePost = this.deletePost.bind(this);
-  }
-
-  deletePost(event, post) {
+  deletePost = (event, post) => {
     event.preventDefault();
     this.props.actions.deletePost(post.id);
-  }
+  };
 
   redirectToAddPostPage = () => {
     browserHistory.push('/admin/create/post');
@@ -42,12 +41,6 @@ class ManagePostsPage extends React.Component {
   }
 }
 
-ManagePostsPage.propTypes = {
-  posts: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
-
 function mapStateToProps(state) {
   return {
     posts: sortNewPostsFirstSelector(state)
@@ -59,6 +52,5 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(postActions, dispatch),
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagePostsPage);

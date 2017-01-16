@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "se.transmode.gradle:gradle-docker:1.2"
     }
 }
 
@@ -39,10 +38,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.data:spring-data-rest-hal-browser'
-    compile "org.projectlombok:lombok:1.16.10"
     compile group: 'com.ibm.icu', name: 'icu4j', version: '57.1'
-    compile('org.spockframework:spock-core:1.1-groovy-2.4-rc-2')
-    compile('org.spockframework:spock-spring:1.1-groovy-2.4-rc-2')
+    compile('org.spockframework:spock-core:1.1-groovy-2.4-rc-4')
+    compile('org.spockframework:spock-spring:1.1-groovy-2.4-rc-4')
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.security:spring-security-test'

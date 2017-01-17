@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { redirectToLogin, saveRouteToBackRedirect } from '../../redux/modules/auth';
 
@@ -11,48 +11,56 @@ const mapDispatchToProps = {
   saveRouteToBackRedirect
 };
 
-const privateRoute = Wrapped => connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
+export default function privateRoute() {
+  return (WrappedComponent) => {
+    class AuthWrapper extends React.Component {
 
-  static propTypes = {
-    auth: PropTypes.object,
-    redirectToLogin: PropTypes.func,
-    saveRouteToBackRedirect: PropTypes.func,
-    location: PropTypes.string
+      static propTypes = {
+        auth: PropTypes.object,
+        redirectToLogin: PropTypes.func,
+        saveRouteToBackRedirect: PropTypes.func,
+        location: PropTypes.string
+      };
+
+      componentDidMount() {
+        this.redirectIfNotLogged(this.props);
+      }
+
+      componentWillReceiveProps(nextProps) {
+        this.redirectIfNotLogged(nextProps);
+      }
+
+      componentWillUnmount() {
+        if (!this.props.auth.user) {
+          this.props.saveRouteToBackRedirect(this.props.location);
+        }
+      }
+
+      redirectIfNotLogged(props) {
+        const {loading, user} = props.auth;
+        if (loading === false && !user) {
+          this.props.redirectToLogin();
+        }
+      }
+
+      render() {
+        const {loading, user} = this.props.auth;
+        if (loading || !user) {
+          return (
+            <div className="center loader">
+              <div>Loading...</div>
+            </div>
+          );
+        }
+
+        return <WrappedComponent {...this.props} />;
+      }
+    }
+
+    if (WrappedComponent.reduxAsyncConnect) {
+      AuthWrapper.reduxAsyncConnect = WrappedComponent.reduxAsyncConnect;
+    }
+
+    return connect(mapStateToProps, mapDispatchToProps)(AuthWrapper);
   };
-
-  componentDidMount() {
-    this.redirectIfNotLogged(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.redirectIfNotLogged(nextProps);
-  }
-
-  componentWillUnmount() {
-    if (!this.props.auth.user) {
-      this.props.saveRouteToBackRedirect(this.props.location);
-    }
-  }
-
-  redirectIfNotLogged(props) {
-    const {loading, user} = props.auth;
-    if (loading === false && !user) {
-      this.props.redirectToLogin();
-    }
-  }
-
-  render() {
-    const {loading, user} = this.props.auth;
-    if (loading || !user) {
-      return (
-        <div className="center loader">
-          <div>Loading...</div>
-        </div>
-      );
-    }
-
-    return <Wrapped {...this.props} />;
-  }
-});
-
-export default privateRoute;
+}

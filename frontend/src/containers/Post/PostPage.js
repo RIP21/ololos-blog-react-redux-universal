@@ -3,13 +3,31 @@ import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import DisqusThread from 'react-disqus-thread';
+import { asyncConnect } from 'redux-async-connect';
 import { getById } from '../../utils/helpers';
-import {postsSelector} from '../../selector/selectors';
+import { postsSelector } from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
 import BlogPost from '../../components/BlogPost/BlogPost';
-import * as postActions from '../../redux/modules/posts';
+import * as postsActions from '../../redux/modules/posts';
+import * as authorsAction from '../../redux/modules/authors';
 
-
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!postsActions.isLoaded(state) && !postsActions.isLoading(state)) {
+      return dispatch(postsActions.loadPosts());
+    }
+  }
+}, {
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!authorsAction.isLoaded(state)) {
+      return dispatch(authorsAction.loadAuthors());
+    }
+  }
+}])
 class PostPage extends React.Component {
 
   postHelmet = {
@@ -32,7 +50,7 @@ class PostPage extends React.Component {
     return (
       <div className="container">
         <Helmet {...this.postHelmet} />
-        <BlogPost post={post} open />
+        <BlogPost post={post} open/>
         <DisqusThread
           shortname="ololos"
           identifier={post.id}
@@ -47,7 +65,6 @@ PostPage.propTypes = {
   post: PropTypes.object.isRequired,
 };
 
-
 function mapStateToProps(state, ownProps) {
   return {
     post: getById(postsSelector(state), ownProps.params.id, Empty.POST),
@@ -56,7 +73,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(postActions, dispatch)
+    actions: bindActionCreators(postsActions, dispatch)
   };
 }
 

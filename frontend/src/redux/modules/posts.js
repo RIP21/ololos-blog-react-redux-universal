@@ -1,5 +1,9 @@
 /*eslint-disable no-underscore-dangle*/
 
+export const LOAD_POST = 'post/LOAD';
+export const LOAD_POST_FAIL = 'post/LOAD_FAIL';
+export const LOAD_POST_SUCCESS = 'post/LOAD_SUCCESS';
+
 export const LOAD_POSTS = 'posts/LOAD_ALL';
 export const LOAD_POSTS_FAIL = 'posts/LOAD_ALL_FAIL';
 export const LOAD_POSTS_SUCCESS = 'posts/LOAD_ALL_SUCCESS';
@@ -16,9 +20,18 @@ export const DELETE_POST = 'posts/DELETE';
 export const DELETE_POST_FAIL = 'posts/DELETE_FAIL';
 export const DELETE_POST_SUCCESS = 'posts/DELETE_SUCCESS';
 
-export default function reducer(state = [], action = {}) {
+const initialState = {
+  posts: [],
+  loaded: false, //TODO: Design some sort of the initialLoad flag to support first load only, then paginating in affect
+  loading: false,
+  error: {}
+};
+
+
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
 
+    case LOAD_POST:
     case LOAD_POSTS:
     case CREATE_POST:
     case DELETE_POST:
@@ -61,6 +74,15 @@ export default function reducer(state = [], action = {}) {
         posts: action.result._embedded.posts
       };
 
+    case LOAD_POST_SUCCESS:
+      return {
+        ...state,
+        loaded: false,
+        loading: false,
+        posts: [...state.posts, Object.assign({}, action.result)]
+      };
+
+    case LOAD_POST_FAIL:
     case LOAD_POSTS_FAIL:
     case CREATE_POST_FAIL:
     case UPDATE_POST_FAIL:
@@ -76,7 +98,6 @@ export default function reducer(state = [], action = {}) {
   }
 }
 
-
 export function isLoaded(globalState) {
   return globalState.posts && globalState.posts.loaded;
 }
@@ -89,6 +110,13 @@ export function loadPosts() {
   return {
     types: [LOAD_POSTS, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAIL],
     promise: client => client.get('/posts')
+  };
+}
+
+export function loadPost(postId) {
+  return {
+    types: [LOAD_POST, LOAD_POST_SUCCESS, LOAD_POST_FAIL],
+    promise: client => client.get(`/posts/${postId}`)
   };
 }
 

@@ -3,10 +3,29 @@ import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
+import { asyncConnect } from 'redux-async-connect';
 import PostList from './PostList';
-import * as postActions from '../../redux/modules/posts';
+import * as postsActions from '../../redux/modules/posts';
+import * as authorsAction from '../../redux/modules/authors';
 import { sortNewPostsFirstSelector } from '../../selector/selectors';
 
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!postsActions.isLoaded(state) && !postsActions.isLoading(state)) {
+      return dispatch(postsActions.loadPosts());
+    }
+  }
+}, {
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!authorsAction.isLoaded(state)) {
+      return dispatch(authorsAction.loadAuthors());
+    }
+  }
+}])
 class ManagePostsPage extends React.Component {
 
   static propTypes = {
@@ -49,7 +68,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(postActions, dispatch),
+    actions: bindActionCreators(postsActions, dispatch),
   };
 }
 

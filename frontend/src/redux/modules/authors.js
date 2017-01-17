@@ -3,13 +3,20 @@ export const LOAD_AUTHORS = 'authors/LOAD_ALL';
 export const LOAD_AUTHORS_FAIL = 'authors/LOAD_ALL_FAIL';
 export const LOAD_AUTHORS_SUCCESS = 'authors/LOAD_ALL_SUCCESS';
 
-export default function reducer(state = [], action = {}) {
+const initialState = {
+  authors: [],
+  loaded: false,
+  loading: false,
+  error: {}
+};
+
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
 
     case LOAD_AUTHORS:
       return {
         ...state,
-        loaded: true,
+        loaded: false,
         loading: false,
       };
     case LOAD_AUTHORS_SUCCESS:

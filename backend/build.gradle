@@ -32,15 +32,14 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.codehaus.groovy:groovy'
-
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.session:spring-session'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.data:spring-data-rest-hal-browser'
     compile group: 'com.ibm.icu', name: 'icu4j', version: '57.1'
-    compile('org.spockframework:spock-core:1.1-groovy-2.4-rc-4')
-    compile('org.spockframework:spock-spring:1.1-groovy-2.4-rc-4')
+    compile'org.spockframework:spock-core:1.1-groovy-2.4-rc-3'
+    compile'org.spockframework:spock-spring:1.1-groovy-2.4-rc-3'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.security:spring-security-test'

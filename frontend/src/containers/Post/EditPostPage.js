@@ -2,12 +2,31 @@ import {connect} from 'react-redux';
 import objectAssign from 'object-assign';
 import React, {PropTypes} from 'react';
 import {push} from 'react-router-redux';
+import { asyncConnect } from 'redux-async-connect';
 import {getById} from '../../utils/helpers';
 import {postsSelector, authorsSelector} from '../../selector/selectors';
 import * as Empty from '../../constants/emptyEntities';
-import * as postActions from '../../redux/modules/posts';
 import EditPostForm from './EditPostForm';
+import * as postsActions from '../../redux/modules/posts';
+import * as authorsAction from '../../redux/modules/authors';
 
+@asyncConnect([{ //TODO: Fix to the redux-connect instead of redux-async-connect
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!postsActions.isLoaded(state) && !postsActions.isLoading(state)) {
+      return dispatch(postsActions.loadPosts());
+    }
+  }
+}, {
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    const state = getState();
+    if (!authorsAction.isLoaded(state)) {
+      return dispatch(authorsAction.loadAuthors());
+    }
+  }
+}])
 class EditPostPage extends React.Component {
 
   static propTypes = {
@@ -82,4 +101,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, {...postActions, push})(EditPostPage);
+export default connect(mapStateToProps, {...postsActions, push})(EditPostPage);

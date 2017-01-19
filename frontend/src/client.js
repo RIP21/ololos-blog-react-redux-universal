@@ -1,25 +1,70 @@
+/**
+ * THIS IS THE ENTRY POINT FOR THE CLIENT, JUST LIKE server.js IS THE ENTRY POINT FOR THE SERVER.
+ */
+import 'babel-polyfill';
 import React from 'react';
-import Router from 'react-router';
-import BrowserHistory from 'react-router/lib/BrowserHistory';
-import routes from './views/routes';
-import createRedux from './redux/create';
-import { Provider } from 'redux/react';
-import ApiClient from './ApiClient';
-const history = new BrowserHistory;
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { ReduxAsyncConnect } from 'redux-async-connect';
+import ReactGA from 'react-ga';
+import useScroll from 'scroll-behavior/lib/useStandardScroll';
+import createStore from './redux/create';
+import ApiClient from './helpers/ApiClient';
+
+import getRoutes from './routes';
+
 const client = new ApiClient();
-
+const _browserHistory = useScroll(() => browserHistory)();
 const dest = document.getElementById('content');
-const redux = createRedux(client, window.__data);
-const element = (<Provider redux={redux}>
-  {() => <Router history={history} children={routes}/> }
-</Provider>);
-React.render(element, dest);
+const store = createStore(_browserHistory, client, window.__data);
+const history = syncHistoryWithStore(_browserHistory, store);
 
-if (process.env.NODE_ENV !== "production") {
-  window.React = React; // enable debugger
-  const reactRoot = window.document.getElementById("content");
+ReactGA.initialize('UA-86360910-1'); // Google Analytics with React
 
-  if (!reactRoot || !reactRoot.firstChild || !reactRoot.firstChild.attributes || !reactRoot.firstChild.attributes["data-react-checksum"]) {
-    console.error("Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.");
+const logPageView = () => {
+  if (typeof window !== 'undefined') {
+    ReactGA.set({page: window.location.pathname});
+    ReactGA.pageview(window.location.pathname);
   }
+};
+
+const component = (
+  <Router
+    onUpdate={logPageView}
+    render={props =>
+      <ReduxAsyncConnect {...props} helpers={{ client }} filter={item => !item.deferred} />
+      } history={history}
+  >
+    {getRoutes(store)}
+  </Router>
+);
+
+ReactDOM.render(
+  <Provider store={store} key="provider">
+    {component}
+  </Provider>,
+  dest
+);
+
+if (process.env.NODE_ENV !== 'production') {
+  window.React = React; // enable debugger
+
+  if (!dest || !dest.firstChild || !dest.firstChild.attributes || !dest.firstChild.attributes['data-react-checksum']) {
+    console.error('Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.');
+  }
+}
+
+if (__DEVTOOLS__ && !window.devToolsExtension) {
+  const DevTools = require('./containers/DevTools/DevTools');
+  ReactDOM.render(
+    <Provider store={store} key="provider">
+      <div>
+        {component}
+        <DevTools />
+      </div>
+    </Provider>,
+    dest
+  );
 }

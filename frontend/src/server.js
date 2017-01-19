@@ -1,82 +1,129 @@
 import Express from 'express';
 import React from 'react';
-import Router from 'react-router';
-import Location from 'react-router/lib/Location';
-import routes from './views/routes';
-import config from './config';
+import ReactDOM from 'react-dom/server';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
-import url from 'url';
 import path from 'path';
-import createRedux from './redux/create';
-import { Provider } from 'redux/react';
-import api from './api/api';
-import ApiClient from './ApiClient';
+import PrettyError from 'pretty-error';
+import chalk from 'chalk';
+import http from 'http';
+
+import { match } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
+import { Provider } from 'react-redux';
+
+import createHistory from 'react-router/lib/createMemoryHistory';
+import config from './config';
+import createStore from './redux/create';
+import ApiClient from './helpers/ApiClient';
+import Html from './helpers/Html';
+import getRoutes from './routes';
+//import { load as loadAuth} from './redux/modules/auth';
+
+
+const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
+const pretty = new PrettyError();
 const app = new Express();
+const server = new http.Server(app);
 const proxy = httpProxy.createProxyServer({
-  target: 'http://localhost:'+config.apiPort
+  target: targetUrl,
+  changeOrigin: true
 });
 
 app.use(compression());
-app.use(require('serve-static')(path.join(__dirname, '..', 'static')));
-app.use(favicon(path.join(__dirname, '..', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+
+app.use(Express.static(path.join(__dirname, '..', 'static')));
+app.use(Express.static(path.join(__dirname, '..', 'content')));
 
 // Proxy to API server
 app.use('/api', (req, res) => {
-  proxy.web(req, res);
+  proxy.web(req, res, { target: targetUrl });
 });
 
-app.use((req, res, next) => {
-  const client = new ApiClient(req);
-  const redux = createRedux(client);
-  const location = new Location(req.path, req.query);
-  Router.run(routes, location, (error, initialState, transition) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      Promise.all(initialState.components
-        .filter(component => component.fetchData)
-        .map(component => {
-          return component.fetchData(redux.dispatch);
-        }))
-        .then(() => {
-          const webserver = process.env.NODE_ENV === "production" ? "" : "//localhost:8080";
-          const state = redux.getState();
-          res.send('<!doctype html>\n' + React.renderToString(
-              <html lang="en-us">
-              <head>
-                <meta charSet="utf-8"/>
-                <title>React Redux Isomorphic Example</title>
-                <link rel="shortcut icon" href="/favicon.ico"/>
-                <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css"
-                      media="screen, projection" rel="stylesheet" type="text/css"/>
-              </head>
-              <body>
-              <div id="content" dangerouslySetInnerHTML={{__html: React.renderToString(
-                <Provider redux={redux}>
-                  {() => <Router location={location} {...initialState}/>}
-                </Provider>)
-              }}/>
-              <script dangerouslySetInnerHTML={{__html: `window.__data=${JSON.stringify(state)};`}}/>
-              <script src={`${webserver}/dist/client.js`}/>
-              </body>
-              </html>));
-        }).catch((error) => {
-          res.status(500).send(error.stack);
-        });
-    }
-  })
-});
-
-
-app.listen(config.port, function(err) {
-  if(err) {
-    console.error(err);
-  } else {
-    api().then(function () {
-      console.info('==> ✅  Server is listening');
-      console.info('==> 🌎  %s running on port %s, API on port %s', config.app.name, config.port, config.apiPort);
-    });
+// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+proxy.on('error', (error, req, res) => {
+  if (error.code !== 'ECONNRESET') {
+    console.error('proxy error', error);
   }
+  if (!res.headersSent) {
+    res.writeHead(500, { 'content-type': 'application/json' });
+  }
+
+  const json = { error: 'proxy_error', reason: error.message };
+  res.end(JSON.stringify(json));
 });
+
+app.use((req, res) => {
+  if (__DEVELOPMENT__) {
+    // Do not cache webpack stats: the script file would change since
+    // hot module replacement is enabled in the development env
+    webpackIsomorphicTools.refresh();
+  }
+  const client = new ApiClient(req);
+  const memoryHistory = createHistory(req.originalUrl);
+  const store = createStore(memoryHistory, client);
+  const history = syncHistoryWithStore(memoryHistory, store);
+
+  //store.dispatch(loadAuth()); //This will get session and auth information from server before page is rendered to set is as initProps
+
+  function hydrateOnClient() {
+    res.send(`<!doctype html>\n${
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store} />)}`);
+  }
+
+  if (__DISABLE_SSR__) {
+    hydrateOnClient();
+    return;
+  }
+
+  match({ history, routes: getRoutes(store), location: req.originalUrl },
+    (error, redirectLocation, renderProps) => {
+      if (redirectLocation) {
+        res.redirect(redirectLocation.pathname + redirectLocation.search);
+      } else if (error) {
+        console.error('ROUTER ERROR:', pretty.render(error));
+        res.status(500);
+        hydrateOnClient();
+      } else if (renderProps) {
+        loadOnServer({ ...renderProps, store, helpers: { client } }).then(() => {
+          const component = (
+            <Provider store={store} key="provider">
+              <ReduxAsyncConnect {...renderProps} />
+            </Provider>
+          );
+
+          res.status(200);
+
+          global.navigator = { userAgent: req.headers['user-agent'] };
+
+          res.send(`<!doctype html>\n${
+            ReactDOM.renderToString(<Html
+              assets={webpackIsomorphicTools.assets()} component={component}
+              store={store}
+            />)}`);
+        });
+      } else {
+        res.status(404).send('Not found');
+      }
+    });
+});
+
+if (config.port) {
+  server.listen(config.port, (err) => {
+    if (err) {
+      console.error(err);
+    }
+    if (!__DEVELOPMENT__) {
+      console.log('The app is running at:');
+      console.log();
+      console.log(`  ${chalk.cyan(`${config.host}:${config.port}/`)}`);
+      console.log(`  ${chalk.yellow('Production server')} is running, talking to API server on port ${chalk.cyan(config.apiPort)}`);
+      console.log();
+    }
+  });
+} else {
+  console.error(chalk.red('ERROR: No PORT environment variable has been specified'));
+}

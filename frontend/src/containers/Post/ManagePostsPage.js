@@ -28,7 +28,9 @@ class ManagePostsPage extends React.Component {
 
   deletePost = (event, post) => {
     event.preventDefault();
-    this.props.actions.deletePost(post.id);
+    if (confirm('Вы уверены что хотите удалить пост?')) { //eslint-disable-line
+      this.props.actions.deletePost(post.id);
+    }
   };
 
   redirectToAddPostPage = () => {

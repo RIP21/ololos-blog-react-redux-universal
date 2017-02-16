@@ -5,7 +5,7 @@ import {push} from 'react-router-redux';
 import {provideHooks} from 'redial';
 import {getById} from '../../utils/helpers';
 import {postsSelector, authorsSelector} from '../../selector/selectors';
-import * as Empty from '../../constants/emptyEntities';
+import * as Empty from '../../constants/constants';
 import EditPostForm from './EditPostForm';
 import * as postsActions from '../../redux/modules/posts';
 import * as authorsAction from '../../redux/modules/authors';
@@ -88,8 +88,8 @@ function mapStateToProps(state, ownProps) {
   const {userName} = state.auth.user;
 
   return {
-    author: getById(authorsSelector(state), userName, Empty.AUTHOR),
-    post: getById(postsSelector(state), ownProps.params.id, Empty.POST),
+    author: getById(authorsSelector(state), userName, Empty.EMPTY_AUTHOR),
+    post: getById(postsSelector(state), ownProps.params.id, Empty.EMPTY_POST),
     loading: state.posts.loading
   };
 }

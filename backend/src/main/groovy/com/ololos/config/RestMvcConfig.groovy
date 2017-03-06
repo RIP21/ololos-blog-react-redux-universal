@@ -14,6 +14,9 @@ import org.springframework.data.rest.core.annotation.HandleBeforeCreate
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 
 @Configuration
 class RestMvcConfig extends RepositoryRestConfigurerAdapter {
@@ -29,6 +32,24 @@ class RestMvcConfig extends RepositoryRestConfigurerAdapter {
     @Bean
     PostEventHandler postEventHandler() {
         return new PostEventHandler()
+    }
+
+    @Bean
+    CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource()
+        CorsConfiguration config = new CorsConfiguration()
+        config.setAllowCredentials(true)// you USUALLY want this
+        config.addAllowedOrigin("http://localhost:3000") // production frontend
+        config.addAllowedOrigin("http://localhost:3001") // watch frontend
+        config.addAllowedOrigin("http://ololos.space:3000") // post direct frontend
+        config.addAllowedOrigin("http://ololos.space")
+        config.addAllowedHeader("*")
+        config.addAllowedMethod("GET")
+        config.addAllowedMethod("PUT")
+        config.addAllowedMethod("POST")
+        config.addAllowedMethod("DELETE")
+        source.registerCorsConfiguration("/**", config)
+        return new CorsFilter(source)
     }
 }
 

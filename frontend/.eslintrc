@@ -1,64 +1,24 @@
-{ "extends": "eslint-config-airbnb",
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true
-  },
-  "rules": {
-    "arrow-body-style": 0,
-    "new-cap": [2, { "capIsNewExceptions": ["List", "Map", "Set"] }],
-    "react/no-multi-comp": 0,
-    "react/forbid-prop-types": 0,
-    "react/no-danger": 0,
-    "react/prefer-stateless-function": 0,
-    "react/no-unescaped-entities": 0,
-    "react/no-string-refs": 0,
-    "react/no-find-dom-node": 0,
-    "react/jsx-space-before-closing" : 0,
-    "react/require-default-props": 0,
-    "react/jsx-tag-spacing": 0,
-    "no-underscore-dangle": 0,
-    "import/default": 0,
-    "import/no-duplicates": 0,
-    "import/named": 0,
-    "import/namespace": 0,
-    "import/no-unresolved": 0,
-    "import/no-named-as-default": 0,
-    "import/no-named-as-default-member": 0,
-    "comma-dangle": 0,  // not sure why airbnb turned this on. gross!
-    "indent": [2, 2, {"SwitchCase": 1}],
-    "no-multi-spaces": 1,
-    "global-require": 0,
-    "no-console": 0,
-    "no-alert": 1,
-    "no-debugger": 1,
-    "no-trailing-spaces": 0,
-    "linebreak-style": 0,
-    "object-curly-spacing": 0,
-    "no-confusing-arrow": 0,
-    "consistent-return": 0,
-    "no-case-declarations": 0,
-    "spaced-comment": 0,
-    "react/jsx-filename-extension": 0,
-    "max-len": 0
-  },
-  "plugins": [
-    "react", "import"
+{
+  "extends": [
+    "google",
+    "plugin:react/recommended",
   ],
-  "settings": {
-    "import/parser": "babel-eslint",
-    "import/resolve": {
-      "moduleDirectory": ["node_modules", "src"]
-    }
+  "rules": {
+    "indent": [2, 2, {SwitchCase: 1}],
+    "require-jsdoc": 0,
+    "no-invalid-this": 0,
+    "object-curly-spacing": 0,
+    "max-len": [1,120, 4, {"ignoreUrls": true}]
+  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "env": {
+    "node": true,
+    "mocha": true,
   },
   "globals": {
-    "__DEVELOPMENT__": true,
-    "__CLIENT__": true,
-    "__SERVER__": true,
-    "__DISABLE_SSR__": true,
-    "__DEVTOOLS__": true,
-    "socket": true,
-    "webpackIsomorphicTools": true
+    "expect": true
   }
 }

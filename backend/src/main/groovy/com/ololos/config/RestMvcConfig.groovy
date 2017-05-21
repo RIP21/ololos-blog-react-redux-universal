@@ -41,7 +41,7 @@ class RestMvcConfig extends RepositoryRestConfigurerAdapter {
         config.setAllowCredentials(true)// you USUALLY want this
         config.addAllowedOrigin("http://localhost:3000") // production frontend
         config.addAllowedOrigin("http://localhost:3001") // watch frontend
-        config.addAllowedOrigin("http://ololos.space:3000") // post direct frontend
+        config.addAllowedOrigin("http://ololos.space:3000") // port direct frontend
         config.addAllowedOrigin("http://ololos.space")
         config.addAllowedHeader("*")
         config.addAllowedMethod("GET")

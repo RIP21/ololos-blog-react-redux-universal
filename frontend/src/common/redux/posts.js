@@ -107,7 +107,7 @@ export function isLoading(globalState) {
 export function loadPosts() {
   return {
     types: [LOAD_POSTS, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAIL],
-    promise: client => client.get("/posts")
+    promise: client => client.get("/posts?size=100")
   };
 }
 

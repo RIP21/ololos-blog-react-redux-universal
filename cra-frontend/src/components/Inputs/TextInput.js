@@ -24,13 +24,13 @@ const TextInput = ({
 )
 
 TextInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
-  type: PropTypes.string,
   className: PropTypes.string,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default TextInput

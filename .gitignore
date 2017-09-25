@@ -28,3 +28,4 @@ password.txt
 /frontend/.gradle/
 /backend/build/
 /.gradle/
+*.log

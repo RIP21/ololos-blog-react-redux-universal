@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import DisqusThread from 'react-disqus-comments'
 import { getById } from 'utils/helpers'

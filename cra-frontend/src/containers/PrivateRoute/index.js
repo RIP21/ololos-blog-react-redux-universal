@@ -17,9 +17,9 @@ export default function privateRoute() {
     class AuthWrapper extends React.Component {
       static propTypes = {
         auth: PropTypes.object,
+        location: PropTypes.string,
         redirectToLogin: PropTypes.func,
         saveRouteToBackRedirect: PropTypes.func,
-        location: PropTypes.string,
       }
 
       componentDidMount() {
@@ -56,11 +56,6 @@ export default function privateRoute() {
         return <WrappedComponent {...this.props} />
       }
     }
-
-    if (WrappedComponent['@@redial-hooks']) {
-      AuthWrapper['@@redial-hooks'] = WrappedComponent['@@redial-hooks']
-    }
-
     return connect(mapStateToProps, mapDispatchToProps)(AuthWrapper)
   }
 }

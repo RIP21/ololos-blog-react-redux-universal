@@ -47,8 +47,8 @@ const BlogPost = ({ post, open }) => (
 )
 
 BlogPost.propTypes = {
-  post: PropTypes.object.isRequired,
   open: PropTypes.bool,
+  post: PropTypes.object.isRequired,
 }
 
 export default BlogPost

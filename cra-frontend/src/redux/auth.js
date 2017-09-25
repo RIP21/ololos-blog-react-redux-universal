@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux'
+import keys from 'lodash/keys'
 
 const LOAD = 'auth/LOAD'
 const LOAD_SUCCESS = 'auth/LOAD_SUCCESS'
@@ -37,7 +38,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        user: Object.keys(action.result).length !== 0 ? action.result : null,
+        user: keys(action.result).length !== 0 ? action.result : null,
       }
     case LOAD_FAIL:
       return {

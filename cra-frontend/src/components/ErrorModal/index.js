@@ -24,9 +24,9 @@ const ModalLoading = ({ show, onClose, error }) => (
 )
 
 ModalLoading.propTypes = {
+  error: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired,
 }
 
 export default ModalLoading

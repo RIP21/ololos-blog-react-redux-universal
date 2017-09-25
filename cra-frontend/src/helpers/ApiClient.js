@@ -5,7 +5,9 @@ const methods = ['get', 'post', 'put', 'patch', 'del']
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? `/${path}` : path
   // Prepend `/api` to relative URL, to proxy to API server.
-  return `http://ololos.space:8080/${adjustedPath}`
+  return process.env.NODE_ENV === 'development'
+    ? `http://localhost:8080${adjustedPath}`
+    : `http://ololos.space/api${adjustedPath}`
 }
 
 export default class ApiClient {

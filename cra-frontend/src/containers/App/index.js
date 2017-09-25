@@ -23,11 +23,11 @@ const logoImage = require('./logo.png')
 class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
-    user: PropTypes.object,
-    logout: PropTypes.func.isRequired,
-    error: PropTypes.object,
-    show: PropTypes.bool,
     closeModal: PropTypes.func.isRequired,
+    error: PropTypes.object,
+    logout: PropTypes.func.isRequired,
+    show: PropTypes.bool,
+    user: PropTypes.object,
   }
 
   componentDidMount() {

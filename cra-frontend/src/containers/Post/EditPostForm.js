@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormGroup from 'react-bootstrap/lib/FormGroup'
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
-import SimpleMDE from 'components/SimpleMDE'
+import SimpleMDE from 'react-simplemde-editor'
 import TextInput from 'components/Inputs/TextInput'
 import 'simplemde/dist/simplemde.min.css'
-import './SimpleMDE.scss'
+import './SimpleMDE.css'
 
 class EditPostForm extends React.PureComponent {
   handleEditorChange = fieldName => e => {

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import { push } from 'react-router-redux'
@@ -7,11 +8,11 @@ import { PasswordInput, Input, Heading, SignInForm } from './LoginStyles'
 
 class Login extends Component {
   static propTypes = {
-    user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func,
     push: PropTypes.func,
     redirectBackLink: PropTypes.string,
+    user: PropTypes.object,
   }
 
   state = {

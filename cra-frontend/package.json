@@ -1,0 +1,76 @@
+{
+  "name": "Ololos-blog-react-universal",
+  "description": "Ololos travel blog",
+  "author": "Andrii Los <puha212@gmail.com>",
+  "license": "MIT",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RIP21/ololos-blog-react-redux-universal"
+  },
+  "homepage": "http://ololos.space/",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "prebuild": "npm run stylecheck",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "stylelint": "stylelint src/*/**.js",
+    "lint": "eslint src rewires",
+    "lint:fix": "npm run lint -- --fix",
+    "stylecheck": "run-p lint stylelint"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "lodash": "^4.17.4",
+    "numeral": "^2.0.6",
+    "polished": "^1.7.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-icons": "^2.2.5",
+    "react-redux": "^5.0.6",
+    "rebass": "^1.0.3",
+    "recompose": "^0.25.0",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.6",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
+    "styled-components": "^2.1.2",
+    "styled-normalize": "^2.2.1",
+    "react-disqus-comments": "^1.0.3",
+    "react-ga": "^2.3.1",
+    "react-helmet": "^5.2.0",
+    "react-router": "^3.0.5",
+    "react-router-redux": "^4.0.8",
+    "react-simplemde-editor": "^3.6.11",
+    "remarkable": "^1.7.1",
+    "semantic-ui-css": "^2.2.12",
+    "superagent": "^3.6.0"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.2.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "prettier": "^1.6.1",
+    "prop-types": "^15.5.10",
+    "react-app-rewire-styled-components": "^3.0.0",
+    "react-app-rewired": "1.2.9",
+    "react-scripts": "1.0.13",
+    "redux-devtools": "^3.4.0",
+    "redux-devtools-extension": "^2.13.2",
+    "stylelint": "^8.1.1",
+    "stylelint-processor-styled-components": "^1.0.0",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "npm-run-all": "^4.1.1"
+  },
+  "stylelint": {
+    "processors": [
+      "stylelint-processor-styled-components"
+    ],
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-styled-components"
+    ],
+    "syntax": "scss"
+  }
+}

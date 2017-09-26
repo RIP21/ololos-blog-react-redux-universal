@@ -44,4 +44,4 @@ setTimeout(() => {
     .dispatchEvent(
       new Event('render-complete', { bubbles: true, composed: true }),
     )
-}, 6000)
+}, 4000)

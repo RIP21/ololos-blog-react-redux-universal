@@ -22,7 +22,7 @@ app.use(compression())
 
 app.use(
   rendertron.makeMiddleware({
-    proxyUrl: 'https://render-tron.appspot.com/render',
+    proxyUrl: 'http://localhost:5000/render',
     userAgentPattern: /.*/,
   }),
 )

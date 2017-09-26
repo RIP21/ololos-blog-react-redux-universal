@@ -36,3 +36,12 @@ export default class App extends Component {
 
 ReactDOM.render(<App />, document.getElementById('root'))
 registerServiceWorker()
+
+setTimeout(() => {
+  //Event to notify rendertron that page is done
+  document
+    .getElementById('root')
+    .dispatchEvent(
+      new Event('render-complete', { bubbles: true, composed: true }),
+    )
+}, 6000)

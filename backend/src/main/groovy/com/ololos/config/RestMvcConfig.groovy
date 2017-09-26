@@ -43,6 +43,7 @@ class RestMvcConfig extends RepositoryRestConfigurerAdapter {
         config.addAllowedOrigin("http://localhost:3001") // watch frontend
         config.addAllowedOrigin("http://ololos.space:3000") // port direct frontend
         config.addAllowedOrigin("http://ololos.space")
+        config.addAllowedOrigin("http://http://46.101.127.208")
         config.addAllowedHeader("*")
         config.addAllowedMethod("GET")
         config.addAllowedMethod("PUT")
